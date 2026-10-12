@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panou Facțiuni</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill=%27%23b91c1c%27/%3E%3Cpath d='M16 6l8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V9z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f5f6fa;--side:#fff;--card:#fff;--tx:#151824;--tx2:#3d4356;--mu:#7a8094;--bd:#e5e8f0;--hv:#f3f5fb;--ac:#b91c1c;--ac2:#7f1d1d;--ok:#12a05c;--wa:#d98a0b;--bad:#dc3f4d;--in:#3b82f6;--sh:0 1px 2px rgba(16,20,40,.05),0 8px 24px -12px rgba(16,20,40,.12);--glow:rgba(185,28,28,.10)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b0d13;--side:#10131b;--card:#141821;--tx:#eceef5;--tx2:#c3c8d8;--mu:#7f869b;--bd:#232838;--hv:#1a1f2c;--sh:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px -14px rgba(0,0,0,.6);--glow:rgba(185,28,28,.16)}}
+:root[data-theme=dark]{--bg:#0b0d13;--side:#10131b;--card:#141821;--tx:#eceef5;--tx2:#c3c8d8;--mu:#7f869b;--bd:#232838;--hv:#1a1f2c;--sh:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px -14px rgba(0,0,0,.6);--glow:rgba(185,28,28,.16)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:radial-gradient(900px 420px at 15% -10%,var(--glow),transparent),var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+small,.mu{color:var(--mu)}small{display:block;font-size:12px}button{font:inherit}
+svg.i{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:grid;grid-template-columns:272px 1fr;min-height:100vh}
+aside{background:var(--side);border-right:1px solid var(--bd);padding:20px 14px 14px;display:flex;flex-direction:column;gap:16px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:16px;letter-spacing:-.01em;padding:0 6px}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;color:#fff;box-shadow:0 6px 16px -6px var(--ac)}
+.logo svg{width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px 13px;cursor:pointer;font-weight:500;transition:background .15s,transform .05s,box-shadow .15s}
+.btn:hover{background:var(--hv)}.btn:active{transform:translateY(1px)}
+.btn.p{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:transparent;color:#fff;box-shadow:0 6px 16px -8px var(--ac)}.btn.p:hover{filter:brightness(1.08)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}.btn.ghost.d{color:var(--bad)}.btn:disabled{opacity:.6;cursor:wait}
+.btn.ic{width:32px;height:32px;padding:0;border-color:transparent;background:transparent;color:var(--mu)}.btn.ic:hover{background:var(--hv);color:var(--tx)}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);padding:0 8px;font-weight:600}
+#dl{flex:1;overflow:auto;display:flex;flex-direction:column;gap:3px;margin:0 -4px;padding:0 4px}
+.di{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--tx2);position:relative;transition:background .15s}
+.di:hover{background:var(--hv)}.di b{flex:1;font-weight:600;font-size:13px;white-space:nowrap}
+.di.on{background:color-mix(in srgb,var(--ac) 12%,transparent);color:var(--tx)}
+.di.on:before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--ac)}
+.di.on svg{color:var(--ac)}.cnt{font-size:11px;font-weight:600;background:var(--hv);border-radius:99px;padding:1px 8px;color:var(--mu)}
+.me{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+.me>div:nth-child(2){flex:1;min-width:0}.me b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px}
+main{padding:28px 32px 48px;min-width:0;max-width:1240px}
+.hd{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:22px}
+.crumb{font-size:12px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+h1{margin:2px 0 4px;font-size:26px;letter-spacing:-.02em}.act{display:flex;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:15px;box-shadow:var(--sh);display:flex;gap:13px;align-items:center}
+.st .t{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.st .t svg{width:18px;height:18px}.st span{font-size:12px;color:var(--mu)}.st b{display:block;font-size:22px;letter-spacing:-.02em;line-height:1.15}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh);margin-bottom:14px}
+.dist{padding:16px 18px}.dist h3,.card>h3{margin:0 0 12px;font-size:13px;font-weight:600;color:var(--tx2)}
+.bar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--hv);gap:2px}.bar i{display:block;background:var(--c);transition:width .4s}
+.lg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--tx2)}.lg span{display:inline-flex;align-items:center;gap:7px}
+.lg u{width:9px;height:9px;border-radius:3px;background:var(--c)}.lg b{color:var(--tx)}
+.tb{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd)}
+.sr{position:relative;flex:1;min-width:200px}.sr svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mu)}
+.sr input{width:100%;font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 40px 9px 36px;outline:0;transition:border .15s,box-shadow .15s}
+.sr input:focus,.fs:focus{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 18%,transparent)}
+kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font:11px system-ui;color:var(--mu);border:1px solid var(--bd);border-radius:5px;padding:1px 6px;background:var(--card)}
+.fs{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;outline:0}
+.res{font-size:12.5px;color:var(--mu);margin-left:auto}
+.ov{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:800px}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);text-align:left;padding:11px 16px;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap}
+th:hover{color:var(--tx)}th svg{width:11px;height:11px;margin-left:5px;vertical-align:-1px;opacity:.9}
+td{padding:12px 16px;border-top:1px solid var(--bd);vertical-align:middle}
+tbody tr{transition:background .12s}tbody tr:hover{background:var(--hv)}tr.out td{opacity:.5}
+.who{display:flex;align-items:center;gap:12px}.who b{display:block;font-weight:600}.avw{border-radius:50%;padding:2px;background:var(--r,transparent);flex:none}
+.avw .av{border:2px solid var(--card)}
+.tkw{display:flex;flex-direction:column;gap:6px;width:92px}.tk{width:100%;font:inherit;font-weight:600;color:var(--tx);background:transparent;border:1px solid transparent;border-radius:8px;padding:4px 8px;outline:0;text-align:left}
+.tk:hover{border-color:var(--bd)}.tk:focus{border-color:var(--ac);background:var(--bg)}
+.tm{height:4px;border-radius:9px;background:var(--hv);margin:0 8px;overflow:hidden}.tm i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:9px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:99px;font-size:12.5px;font-weight:600;color:color-mix(in srgb,var(--c) 72%,var(--tx));background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 32%,transparent)}
+.chip:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px;background:var(--hv);color:var(--mu);margin-top:3px}
+.dbtn{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;min-width:150px;color:var(--tx2);background:var(--bg);border:1px dashed color-mix(in srgb,var(--mu) 55%,transparent);border-radius:10px;padding:8px 12px;cursor:pointer;transition:.15s}
+.dbtn:hover{border-style:solid;border-color:var(--ac);color:var(--tx)}
+.dec{display:inline-flex;gap:7px;align-items:center;padding:6px 12px;border-radius:10px;font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent)}
+.menu{position:fixed;z-index:60;width:260px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:6px;box-shadow:0 24px 60px -12px rgba(0,0,0,.45);animation:pop .12s}
+.menu button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;color:var(--tx);padding:9px 10px;border-radius:10px;cursor:pointer}
+.menu button:hover{background:var(--hv)}.menu b{display:block;font-weight:600}.menu small{font-size:12px}
+.mi{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+@keyframes pop{from{opacity:0;transform:translateY(-4px) scale(.98)}}
+.empty{text-align:center;padding:64px 20px;color:var(--mu)}.empty .logo{width:56px;height:56px;margin:0 auto 14px;border-radius:16px}.empty .logo svg{width:26px;height:26px}
+.empty h2{color:var(--tx);margin:0 0 6px;font-size:18px}
+.sk{height:46px;margin:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--hv),var(--bd),var(--hv));background-size:200% 100%;animation:sh 1.3s infinite}@keyframes sh{to{background-position:-200% 0}}
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.lc{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:40px 36px;text-align:center;width:380px;max-width:100%;box-shadow:var(--sh)}
+.lc .logo{width:56px;height:56px;border-radius:16px;margin:0 auto 18px}.lc .logo svg{width:28px;height:28px}.lc h1{font-size:22px;margin:0 0 8px}
+.lc p{color:var(--mu);margin:0 0 24px}.lc .btn{width:100%;padding:12px}
+#toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:80}
+.toast{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:11px 14px;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);max-width:360px;animation:pop .18s}
+.toast svg{color:var(--c,var(--in))}.toast.err{--c:var(--bad)}.toast.ok{--c:var(--ok)}
+dialog{border:1px solid var(--bd);border-radius:18px;background:var(--card);color:var(--tx);padding:24px;width:400px;max-width:calc(100vw - 32px);box-shadow:0 30px 70px -10px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(5,7,12,.6);backdrop-filter:blur(3px)}
+.dh{display:flex;gap:14px;margin-bottom:20px}.dh .mi{width:40px;height:40px;flex:none}.dh h3{margin:0 0 4px;font-size:16px}.dh p{margin:0;color:var(--mu)}
+dialog form{display:flex;justify-content:flex-end;gap:8px}
+@media(max-width:860px){.app{grid-template-columns:1fr}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--bd)}
+#dl{flex-direction:row;overflow-x:auto;flex:none}.di{flex:none}.di.on:before{display:none}main{padding:18px 14px 40px}.me{order:-1}h1{font-size:22px}}
+
+/* === PREMIUM UI REFRESH === */
+:root{--radius:18px;--ring:rgba(185,28,28,.18);--speed:.22s;--content:1440px}
+body{background:radial-gradient(1000px 500px at 12% -12%,color-mix(in srgb,var(--ac) 14%,transparent),transparent 60%),radial-gradient(900px 500px at 92% 0%,color-mix(in srgb,var(--ac2) 9%,transparent),transparent 58%),var(--bg);transition:background .3s,color .2s}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:linear-gradient(color-mix(in srgb,var(--tx) 2%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--tx) 2%,transparent) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,black,transparent 70%);z-index:-1}
+.app{grid-template-columns:268px minmax(0,1fr);transition:grid-template-columns .25s ease}
+aside{backdrop-filter:blur(18px);background:color-mix(in srgb,var(--side) 86%,transparent);box-shadow:14px 0 40px -34px rgba(0,0,0,.45);z-index:20}
+body.compact aside{width:82px;padding-inline:10px}.compact .app{grid-template-columns:82px 1fr}.compact .brand span,.compact .lbl,.compact #gen span,.compact .di b,.compact .cnt,.compact .me>div:nth-child(2){display:none}.compact .brand{justify-content:center}.compact #gen{font-size:0}.compact .di{justify-content:center}.compact .di.on:before{left:-10px}.compact .me{justify-content:center}
+.brand{padding:2px 7px}.brand span{white-space:nowrap}.brand .logo{box-shadow:0 8px 28px -8px var(--ac);transition:transform .25s}.brand:hover .logo{transform:rotate(-5deg) scale(1.04)}
+.btn{border-radius:12px;transition:background var(--speed),transform .12s,box-shadow var(--speed),border-color var(--speed)}.btn:hover{box-shadow:0 8px 22px -16px rgba(0,0,0,.45)}.btn.p{box-shadow:0 10px 26px -14px var(--ac)}.btn.p:hover{box-shadow:0 14px 32px -12px var(--ac)}
+main{max-width:var(--content);width:100%;padding:30px clamp(18px,3vw,42px) 60px}.hd{position:relative;margin-bottom:20px;align-items:center}.crumb{display:flex;align-items:center;gap:7px}.crumb:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 5px color-mix(in srgb,var(--ac) 10%,transparent)}
+h1{font-size:30px;letter-spacing:-.035em}.live{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:99px;background:color-mix(in srgb,var(--ok) 11%,transparent);color:var(--ok);font-size:11px;font-weight:700}.live i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}@keyframes pulse{50%{opacity:.45;transform:scale(.82)}}
+.stats{grid-template-columns:repeat(6,minmax(145px,1fr));gap:11px}.st{border-radius:16px;padding:15px;position:relative;overflow:hidden;isolation:isolate;transition:transform var(--speed),border-color var(--speed),box-shadow var(--speed)}.st:after{content:"";position:absolute;width:90px;height:90px;right:-35px;top:-42px;border-radius:50%;background:var(--c);opacity:.07;z-index:-1}.st:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--c) 30%,var(--bd));box-shadow:0 16px 34px -22px color-mix(in srgb,var(--c) 35%,transparent)}.st b{font-size:24px}.st .t{transition:transform var(--speed)}.st:hover .t{transform:scale(1.07)}
+.card{border-radius:18px;box-shadow:var(--sh);overflow:hidden;transition:border-color .2s,box-shadow .2s}.card:hover{border-color:color-mix(in srgb,var(--ac) 14%,var(--bd))}.dist{padding:17px 19px}.dist h3{display:flex;justify-content:space-between;align-items:center}.dist h3:after{content:"LIVE";font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:99px;background:color-mix(in srgb,var(--ac) 10%,transparent);color:var(--ac)}.bar{height:11px}
+.tb{padding:13px 14px;background:linear-gradient(180deg,color-mix(in srgb,var(--hv) 45%,transparent),transparent)}.sr input,.fs{border-radius:12px}.sr input{padding-block:10px}.fs{padding-block:10px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar .btn{padding:8px 10px}.toolbar .btn.active{background:color-mix(in srgb,var(--ac) 11%,transparent);border-color:color-mix(in srgb,var(--ac) 28%,transparent);color:var(--ac)}
+.res{font-weight:600}.ov{scrollbar-width:thin}table{min-width:900px}th{padding:12px 16px;background:color-mix(in srgb,var(--bg) 35%,transparent);position:sticky;top:0;z-index:2}td{padding:13px 16px}tbody tr{transition:background .15s,transform .15s}tbody tr:hover{background:color-mix(in srgb,var(--ac) 4%,var(--hv))}.avw{transition:transform .18s}tbody tr:hover .avw{transform:scale(1.04)}.who b{letter-spacing:-.01em}.dbtn{border-radius:12px;min-width:165px;background:color-mix(in srgb,var(--bg) 75%,transparent)}.dbtn:hover{box-shadow:0 8px 20px -18px var(--ac);background:color-mix(in srgb,var(--ac) 5%,var(--bg))}
+body.dense td{padding-top:8px;padding-bottom:8px}body.dense .who{gap:9px}body.dense .av{width:31px;height:31px}
+.quick{display:grid;grid-template-columns:1.35fr .8fr .8fr;gap:11px;margin-bottom:14px}.qcard{padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 8%,var(--card)),var(--card));border:1px solid color-mix(in srgb,var(--ac) 13%,var(--bd));border-radius:16px}.qcard h3{margin:0 0 3px;font-size:13px}.qcard p{margin:0;color:var(--mu);font-size:12px}.qnum{font-size:25px;font-weight:800;letter-spacing:-.04em}.qcard .btn{white-space:nowrap}
+.menu{backdrop-filter:blur(18px);background:color-mix(in srgb,var(--card) 90%,transparent);box-shadow:0 26px 70px -18px rgba(0,0,0,.55)}
+.cmd{position:fixed;inset:0;z-index:100;display:grid;place-items:start center;padding-top:min(18vh,150px);background:rgba(4,6,12,.48);backdrop-filter:blur(8px)}.cmd[hidden]{display:none}.cmdbox{width:min(680px,calc(100vw - 28px));background:var(--card);border:1px solid var(--bd);border-radius:20px;box-shadow:0 40px 100px -25px rgba(0,0,0,.65);overflow:hidden;animation:cmdIn .16s ease}.cmdhead{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--bd)}.cmdhead input{flex:1;border:0;outline:0;background:none;color:var(--tx);font:16px system-ui}.cmdlist{padding:8px;max-height:340px;overflow:auto}.cmditem{display:flex;align-items:center;gap:12px;padding:10px 11px;border-radius:11px;cursor:pointer}.cmditem:hover,.cmditem.on{background:var(--hv)}.cmditem .mi{width:30px;height:30px}.cmditem b{font-size:13px}.cmditem small{margin-top:1px}.cmdkey{margin-left:auto;font-size:11px;color:var(--mu);border:1px solid var(--bd);border-radius:6px;padding:2px 6px}@keyframes cmdIn{from{opacity:0;transform:translateY(-8px) scale(.98)}}
+#toasts{right:20px;bottom:20px}.toast{border-radius:14px;backdrop-filter:blur(12px);animation:toastIn .22s ease}.toast.ok{border-color:color-mix(in srgb,var(--ok) 25%,var(--bd))}.toast.err{border-color:color-mix(in srgb,var(--bad) 25%,var(--bd))}@keyframes toastIn{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.sr input:focus,.fs:focus,.tk:focus{box-shadow:0 0 0 4px var(--ring)}.lc{position:relative;backdrop-filter:blur(18px);background:color-mix(in srgb,var(--card) 82%,transparent);box-shadow:0 30px 100px -40px rgba(0,0,0,.65)}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.quick{grid-template-columns:1fr 1fr}.quick .qcard:first-child{grid-column:1/-1}}@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:1fr}.quick .qcard:first-child{grid-column:auto}.act{width:100%}.act .btn{flex:1}.hd{align-items:flex-start}.res{width:100%;margin-left:0}.toolbar{width:100%}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* === TEME FACTIUNI === */
+.asel{font:inherit;font-weight:600;min-width:130px;cursor:pointer;outline:0;padding:6px 10px;border-radius:99px;color:color-mix(in srgb,var(--c) 72%,var(--tx));background:color-mix(in srgb,var(--c) 14%,var(--card));border:1px solid color-mix(in srgb,var(--c) 32%,transparent)}
+.asel:focus{box-shadow:0 0 0 4px var(--ring)}.asel option{color:var(--tx);background:var(--card)}
+.fsw{display:flex;gap:6px;padding:4px;border:1px solid var(--bd);border-radius:12px;background:var(--bg)}
+.fsw button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;background:none;color:var(--mu);font:inherit;font-weight:600;padding:8px 6px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s}
+.fsw button i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.fsw button:hover{color:var(--tx);background:var(--hv)}
+.fsw button.on{color:var(--tx);background:var(--card);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 45%,var(--bd)),0 6px 16px -10px var(--c)}
+.compact .fsw{flex-direction:column}.compact .fsw button span{display:none}
+:root[data-faction=vagos]{--ac:#eab308;--ac2:#a16207;--glow:rgba(234,179,8,.12);--ring:rgba(234,179,8,.24)}
+:root[data-faction=camorra]{--ac:#b91c1c;--ac2:#7f1d1d}
+:root[data-faction=vagos] .btn.p,:root[data-faction=vagos] .logo{color:#1a1300}
+#pick{min-height:100vh;display:grid;place-items:center;padding:20px}
+.pk{width:760px;max-width:100%;text-align:center}.pk h1{font-size:28px;margin:0 0 6px}.pk>p{color:var(--mu);margin:0 0 26px}
+.pkg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.pkc{--c:#b91c1c;cursor:pointer;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:34px 20px;box-shadow:var(--sh);transition:transform .15s,border-color .15s,box-shadow .15s;color:var(--tx);font:inherit}
+.pkc:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:0 20px 50px -26px var(--c)}
+.pkc .pl{width:64px;height:64px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:var(--c);color:#fff;box-shadow:0 10px 28px -10px var(--c)}.pkc .pl svg{width:30px;height:30px}
+.pkc b{display:block;font-size:20px;letter-spacing:-.02em}.pkc small{margin-top:4px}
+</style></head><body>
+<div id="login" hidden><div class="lc"><div class="logo" id="lg"></div><h1>Panou Facțiuni</h1><p>Autentifică-te cu Discord pentru a continua. Accesul este permis doar membrilor cu rolul potrivit.</p><a href="/auth/login"><button class="btn p">Continuă cu Discord</button></a></div></div>
+<div id="pick" hidden><div class="pk"><h1>Alege facțiunea</h1><p>Selectează panoul în care vrei să lucrezi.</p><div class="pkg" id="pkg"></div><p style="margin-top:22px"><button class="btn" onclick="out()">Deconectare</button></p></div></div>
+<div class="app" id="app" hidden>
+<aside>
+<div class="brand"><div class="logo" id="bl"></div><span id="bn">Panou</span><button class="btn ic" title="Compactează meniul" id="sb" onclick="toggleSidebar()"></button></div>
+<div class="fsw" id="fsw" hidden></div>
+<button class="btn p" id="gen" onclick="gen()"></button>
+<div class="lbl">Docs generate</div><div id="dl"></div>
+<div class="me"><div id="mav"></div><div><b id="who"></b><small>Autentificat</small></div>
+<button class="btn ic" title="Schimbă facțiunea" id="sw" onclick="pickScreen()" hidden></button><button class="btn ic" title="Schimbă tema" id="tb" onclick="theme()"></button><button class="btn ic" title="Deconectare" id="lo" onclick="out()"></button></div>
+</aside>
+<main><div id="content"></div></main></div>
+<dialog id="dlg"><div class="dh"><div class="mi" id="cI"></div><div><h3 id="cT"></h3><p id="cM"></p></div></div><form method="dialog"><button class="btn" value="cancel">Anulează</button><button class="btn p" id="cOk" value="ok">Confirmă</button></form></dialog>
+<div id="toasts"></div><div class="cmd" id="cmd" hidden onclick="if(event.target===this)closeCmd()"><div class="cmdbox"><div class="cmdhead"><span id="cmdIcon"></span><input id="cmdInput" autocomplete="off" placeholder="Caută o acțiune…"><kbd>Esc</kbd></div><div class="cmdlist" id="cmdList"></div></div></div>
+<script>
+const P={shield:"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",plus:"M12 5v14M5 12h14",file:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6",users:"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",ticket:"M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z",up:"M12 19V5M5 12l7-7 7 7",down:"M12 5v14M19 12l-7 7-7-7",check:"M20 6L9 17l-5-5",out:"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",trash:"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6",dl:"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",search:"M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35",sun:"M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4",chev:"M6 9l6 6 6-6",clock:"M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",alert:"M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z",info:"M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",menu:"M4 6h16M4 12h16M4 18h16",refresh:"M20 11a8 8 0 1 0 2 5M20 5v6h-6",filter:"M4 6h16M7 12h10M10 18h4",copy:"M9 9h11v11H9zM4 4h11v3",bolt:"M13 2L4 14h7l-1 8 9-12h-7z",grid:"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24"><path d="${P[n]}"/></svg>`;
+const $=i=>document.getElementById(i);
+$("lg").innerHTML=$("bl").innerHTML=ic("shield");$("tb").innerHTML=ic("sun");$("lo").innerHTML=ic("out");$("sw").innerHTML=ic("grid");$("gen").innerHTML=ic("plus")+"<span>Generează Docs</span>";$("sb").innerHTML=ic("menu");$("cmdIcon").innerHTML=ic("search");
+const OPTS=[{v:"Up",i:"up",c:"#12a05c",d:"Primește gradul următor"},{v:"Down",i:"down",c:"#d98a0b",d:"Primește gradul anterior"},{v:"Rămâne",i:"check",c:"#3b82f6",d:"Fără schimbări pe Discord"},{v:"Out",i:"out",c:"#dc3f4d",d:"Pierde gradul și rolul de membru"}];
+const ACTS=[{v:"Inactiv",c:"#dc3f4d"},{v:"Slabă",c:"#d98a0b"},{v:"Acceptabilă",c:"#3b82f6"},{v:"Bună",c:"#12a05c"},{v:"Excelentă",c:"#8b5cf6"}],ACT=ACTS.map(a=>a.v),AC=Object.fromEntries(ACTS.map(a=>[a.v,a.c]));
+const DC=Object.fromEntries(OPTS.map(o=>[o.v,o]));
+let FAC="",FACS=[],N={},ORDER=[],D=null,L=[],sort={k:"rank",d:-1},q="",rf="",menu=null;
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const days=d=>Math.max(0,Math.floor((Date.now()-new Date(d))/864e5));
+const fmt=d=>d.split("-").reverse().join(".");
+const ago=n=>n===0?"azi":n===1?"acum o zi":`acum ${n} zile`;
+function toast(m,t){const e=document.createElement("div");e.className="toast "+(t||"");e.innerHTML=ic(t==="err"?"alert":t==="ok"?"check":"info")+"<span></span>";e.lastChild.textContent=m;$("toasts").append(e);setTimeout(()=>e.remove(),4200)}
+function ask(t,m,o){return new Promise(r=>{$("cT").textContent=t;$("cM").textContent=m;const c=o.c||"var(--ac)";$("cI").style.setProperty("--c",c);$("cI").innerHTML=ic(o.i);$("cOk").className="btn "+(o.danger?"danger":"p");const d=$("dlg");d.returnValue="";d.showModal();d.onclose=()=>r(d.returnValue==="ok")})}
+function theme(){const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("th",r.dataset.theme)}catch(e){}}
+try{const t=localStorage.getItem("th");if(t)document.documentElement.dataset.theme=t}catch(e){}
+const COL=["#b91c1c","#12a05c","#d98a0b","#dc3f4d","#8b5cf6","#0ea5b7"];
+const av=(n,u,id)=>u?`<img class="av" src="${esc(u)}" alt="" loading="lazy">`:`<div class="av" style="background:${COL[(+String(id).slice(-3)||0)%6]}">${esc((n||"?")[0].toUpperCase())}</div>`;
+async function api(u,m,b){const r=await fetch(u,{method:m||"GET",headers:{"Content-Type":"application/json"},body:b&&JSON.stringify(b)});
+if(r.status===401){$("login").hidden=false;$("app").hidden=true;$("pick").hidden=true;throw 0}const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"Eroare "+r.status);return j}
+function toggleSidebar(){document.body.classList.toggle("compact");try{localStorage.setItem("sb",document.body.classList.contains("compact")?"1":"0")}catch(e){}}
+try{if(localStorage.getItem("sb")==="1")document.body.classList.add("compact");if(localStorage.getItem("density")==="dense")document.body.classList.add("dense")}catch(e){}
+function toggleDensity(){document.body.classList.toggle("dense");try{localStorage.setItem("density",document.body.classList.contains("dense")?"dense":"roomy")}catch(e){};toast(document.body.classList.contains("dense")?"Mod compact activat":"Mod confortabil activat","ok")}
+function refreshDocs(){if(D)load(D.id);else docs();toast("Datele au fost reîmprospătate","ok")}
+function focusSearch(){const x=$("qs");if(x){x.focus();x.select()}}
+function pendingOnly(){const b=$("pendingBtn");if(!b)return;const on=b.classList.toggle("active");b.innerHTML=ic("filter")+(on?" Toate rândurile":" Doar nefinalizate");b.dataset.pending=on?"1":"0";rows()}
+function copyId(id){navigator.clipboard?.writeText(id).then(()=>toast("ID copiat","ok"))}
+const commands=[{t:"Caută membru",d:"Du-te direct în căutarea din tabel",i:"search",k:"/",a:focusSearch},{t:"Arată doar nefinalizate",d:"Ascunde deciziile deja aplicate",i:"filter",a:pendingOnly},{t:"Comută densitatea",d:"Mai multe sau mai puține rânduri pe ecran",i:"grid",a:toggleDensity},{t:"Reîmprospătează Docs",d:"Încarcă din nou datele de pe server",i:"refresh",a:refreshDocs},{t:"Temă",d:"Comută între aspect luminos și întunecat",i:"sun",a:theme}];
+function openCmd(){const c=$("cmd");c.hidden=false;renderCmd("");setTimeout(()=>$("cmdInput").focus(),0)}
+function closeCmd(){$("cmd").hidden=true}
+function renderCmd(term){const x=term.trim().toLowerCase();const list=commands.filter(c=>(c.t+c.d).toLowerCase().includes(x));$("cmdList").innerHTML=list.map((c,i)=>`<div class="cmditem ${i===0?"on":""}" data-i="${commands.indexOf(c)}"><span class="mi" style="--c:var(--ac)">${ic(c.i)}</span><span><b>${c.t}</b><small>${c.d}</small></span>${c.k?`<span class="cmdkey">${c.k}</span>`:""}</div>`).join("")||'<div class="empty" style="padding:28px">Nicio acțiune găsită.</div>'}
+$("cmdInput").addEventListener("input",e=>renderCmd(e.target.value));$("cmdList").addEventListener("click",e=>{const x=e.target.closest(".cmditem");if(!x)return;commands[+x.dataset.i].a();closeCmd()});
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCmd()}else if(e.key==="Escape"&&!$("cmd").hidden)closeCmd()});
+const U=p=>`/api/${FAC}${p}`;
+async function init(){try{const m=await api("/api/me");FACS=m.factions;ME=m.user;$("login").hidden=true;
+let f="";try{f=sessionStorage.getItem("fac")||""}catch(e){}
+if(FACS.length===1)f=FACS[0].id;
+if(FACS.some(x=>x.id===f))await enter(f);else pickScreen()}catch(e){if(e)toast(e.message,"err")}}
+let ME=null,FN="";
+function swRender(){const w=$("fsw");w.hidden=FACS.length<2;w.innerHTML=FACS.map(f=>`<button style="--c:${f.color}" class="${f.id===FAC?"on":""}" title="${esc(f.name)}" onclick="${f.id===FAC?"":`enter('${f.id}')`}"><i></i><span>${esc(f.name)}</span></button>`).join("")}
+function pickScreen(){$("app").hidden=true;$("pick").hidden=false;document.documentElement.dataset.faction="";
+$("pkg").innerHTML=FACS.map(f=>`<button class="pkc" style="--c:${f.color}" onclick="enter('${f.id}')"><div class="pl">${ic("shield")}</div><b>${esc(f.name)}</b><small>Deschide panoul ${esc(f.name)}</small></button>`).join("")}
+async function enter(id){try{FAC=id;D=null;q="";rf="";const m=await api(U("/meta"));N=m.roles;ORDER=m.order;
+try{sessionStorage.setItem("fac",id)}catch(e){}
+document.documentElement.dataset.faction=id;$("bn").textContent="Panou "+m.name;document.title="Panou "+m.name;
+$("who").textContent=m.user;$("mav").innerHTML=av(m.user,ME.avatar,ME.id);$("sw").hidden=true;FN=m.name;swRender();$("gen").innerHTML=ic("plus")+"<span>Generează Docs "+esc(FN)+"</span>";
+$("pick").hidden=true;$("app").hidden=false;await docs()}catch(e){if(e)toast(e.message,"err")}}
+async function docs(sel){$("content").innerHTML='<div class="card"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>';
+L=await api(U("/docs"));renderList();
+if(L.length)await load(sel||L[0].id);else{D=null;$("content").innerHTML=`<div class="card empty"><div class="logo">${ic("file")}</div><h2>Niciun Docs generat</h2><p>Apasă „Generează Docs" pentru a crea Docs-ul perioadei curente, cu toți membrii facțiunii de pe Discord.</p></div>`}}
+function renderList(){$("dl").innerHTML=L.map(d=>`<div class="di ${D&&D.id===d.id?"on":""}" onclick="load('${d.id}')">${ic("file")}<b>${esc(d.name)}</b><span class="cnt">${d.count}</span></div>`).join("")||'<small style="padding:6px 8px">Nimic generat încă.</small>'}
+async function load(id){try{D=await api(U("/docs/"+id));renderList();draw()}catch(e){if(e)toast(e.message,"err")}}
+function draw(){const R=D.rows,c=k=>R.filter(r=>r.decision===k).length;
+const S=(t,l,v,col)=>`<div class="st" style="--c:${col}"><div class="t">${ic(t)}</div><div><span>${l}</span><b>${v}</b></div></div>`;
+const cnt={};R.forEach(r=>{if(!r.out&&r.rank)cnt[r.rank]=(cnt[r.rank]||0)+1});const act=Object.values(cnt).reduce((a,b)=>a+b,0)||1;
+const rk=ORDER.slice().reverse().filter(o=>cnt[o]);
+$("content").innerHTML=`<div class="hd"><div><div class="crumb">Docs</div><h1>${esc(D.name)}</h1><small>Generat${D.createdBy?" de "+esc(D.createdBy):""}${D.createdAt?" &middot; "+new Date(D.createdAt).toLocaleString("ro-RO"):""}</small></div>
+<div class="act"><button class="btn" onclick="csv()">${ic("dl")}Export CSV</button><button class="btn ghost d" onclick="delDoc()">${ic("trash")}Șterge Docs</button></div></div>
+<div class="stats">${S("users","Membri",R.length,"#b91c1c")}${S("bolt","Activitate bună+",R.filter(r=>r.activity==="Bună"||r.activity==="Excelentă").length,"#8b5cf6")}${S("up","Promovați",c("Up"),"#12a05c")}${S("down","Retrogradați",c("Down"),"#d98a0b")}${S("out","Out",c("Out"),"#dc3f4d")}${S("clock","Fără decizie",R.filter(r=>!r.locked).length,"#7f869b")}</div><div class="quick"><div class="qcard"><div><h3>Flux de lucru</h3><p>Ai ${R.filter(r=>!r.locked).length} membri care așteaptă o decizie.</p></div><button class="btn p" onclick="pendingOnly()">${ic("bolt")} Vezi ce mai e de făcut</button></div><div class="qcard"><div><h3>Activitate</h3><p>Decizii aplicate în acest Docs</p></div><div class="qnum">${R.filter(r=>r.locked).length}</div></div><div class="qcard"><div><h3>Inactivi</h3><p>Membri marcați Inactiv</p></div><div class="qnum">${R.filter(r=>r.activity==="Inactiv").length}</div></div></div>
+${rk.length?`<div class="card dist"><h3>Distribuția pe grade</h3><div class="bar">${rk.map(o=>`<i style="--c:${N[o]?.color||"#7f869b"};width:${cnt[o]/act*100}%"></i>`).join("")}</div><div class="lg">${rk.map(o=>`<span style="--c:${N[o]?.color||"#7f869b"}"><u></u>${esc(N[o]?.name||"?")} <b>${cnt[o]}</b></span>`).join("")}</div></div>`:""}
+<div class="card"><div class="tb"><div class="sr">${ic("search")}<input id="qs" placeholder="Caută după nume sau ID" value="${esc(q)}" oninput="q=this.value;rows()"><kbd>/</kbd></div>
+<select class="fs" onchange="rf=this.value;rows()"><option value="">Toate gradele</option>${ORDER.slice().reverse().map(o=>`<option value="${o}"${rf===o?" selected":""}>${esc(N[o]?.name||o)}</option>`).join("")}</select><div class="toolbar"><button class="btn" onclick="refreshDocs()" title="Reîmprospătează">${ic("refresh")}</button><button class="btn" onclick="toggleDensity()" title="Densitate">${ic("grid")}</button><button class="btn" id="pendingBtn" onclick="pendingOnly()" title="Filtru decizii">${ic("filter")} Doar nefinalizate</button></div><span class="res" id="res"></span></div>
+<div class="ov"><table><thead><tr>${[["name","Membru"],["activity","Activitate"],["rank","Grad"],["since","În grad de la"],["decision","Decizie"]].map(([k,l])=>`<th onclick="srt('${k}')">${l}${sort.k===k?`<svg class="i" viewBox="0 0 24 24" style="${sort.d>0?"":"transform:rotate(180deg)"}"><path d="${P.chev}" transform="rotate(180 12 12)"/></svg>`:""}</th>`).join("")}</tr></thead><tbody id="tbody"></tbody></table></div></div>`;rows()}
+function srt(k){sort=sort.k===k?{k,d:-sort.d}:{k,d:k==="name"?1:-1};draw()}
+function rows(){const pending=$("pendingBtn")?.dataset.pending==="1";let R=D.rows.filter(r=>(!rf||r.rank===rf)&&(!q||(r.name+r.uid).toLowerCase().includes(q.toLowerCase()))&&(!pending||!r.locked));
+const v=r=>sort.k==="rank"?(r.out?-2:ORDER.indexOf(r.rank)):sort.k==="since"?(r.since?new Date(r.since).getTime():Infinity):sort.k==="name"?r.name.toLowerCase():sort.k==="activity"?ACT.indexOf(r.activity):r.decision;
+R=R.slice().sort((a,b)=>(v(a)>v(b)?1:v(a)<v(b)?-1:0)*sort.d);const mx=1;
+$("tbody").innerHTML=R.map(r=>row(r,mx)).join("")||`<tr><td colspan="5" class="empty">Niciun rezultat pentru filtrele curente.</td></tr>`;
+$("res").textContent=`${R.length} din ${D.rows.length} membri`}
+const SRC={audit:"Data din Audit Log Discord",panel:"Setat din panou la ultima schimbare",seen:"Prima detectare în panou (Audit Log expirat sau indisponibil)"};
+function row(r,mx){const rc=N[r.rank]||{},d0=r.since?days(r.since):0;
+const chip=r.out?'<span class="chip" style="--c:#dc3f4d">OUT</span>':r.rank?`<span class="chip" style="--c:${rc.color||"#7f869b"}">${esc(rc.name||"?")}</span>`:`<span class="mu">Fără grad</span>${(r.extra||[]).length?`<small title="Roluri găsite pe Discord, dar care nu sunt în RANK_ROLE_IDS">${esc(r.extra.slice(0,3).map(x=>N[x]?.name||x).join(", "))}</small>`:""}`;
+const since=r.since?`<div style="font-weight:600">${fmt(r.since)}</div><span class="pill" title="${SRC[r.sinceSrc]||""}">${ago(d0)}${r.sinceSrc==="seen"?" &middot; aprox.":""}</span>`:'<span class="mu">Necunoscut</span>';
+const o=DC[r.decision];
+const dcell=r.locked?`<span class="dec" style="--c:${o?o.c:"#7f869b"}">${o?ic(o.i):""}${esc(r.decision)}</span><small style="margin-top:3px">de ${esc(r.by||"-")}</small>`
+:`<button class="dbtn" onclick="openMenu(this,'${r.uid}')"><span>Alege decizia</span>${ic("chev")}</button>`;
+return `<tr class="${r.out?"out":""}"><td><div class="who"><div class="avw" style="--r:${r.locked&&o?o.c:"transparent"}">${av(r.name,r.avatar,r.uid)}</div><div><b>${esc(r.name)}</b><small>${r.uid} <button class="btn ic" style="width:22px;height:22px;display:inline-grid;vertical-align:-7px" title="Copiază ID" onclick="event.stopPropagation();copyId('${r.uid}')">${ic("copy")}</button></small></div></div></td>
+<td><select class="asel" style="--c:${r.activity?AC[r.activity]:'#7f869b'}" onchange="act('${r.uid}',this.value)"><option value="">Alege…</option>${ACTS.map(a=>`<option value="${a.v}"${r.activity===a.v?" selected":""}>${a.v}</option>`).join("")}</select></td><td>${chip}</td><td>${since}</td><td>${dcell}</td></tr>`}
+function openMenu(btn,uid){closeMenu();const b=btn.getBoundingClientRect(),m=document.createElement("div");m.className="menu";
+m.innerHTML=OPTS.map(o=>`<button data-v="${o.v}" style="--c:${o.c}"><span class="mi">${ic(o.i)}</span><span><b>${o.v}</b><small>${o.d}</small></span></button>`).join("");
+document.body.append(m);const h=m.offsetHeight;let t=b.bottom+6;if(t+h>innerHeight-8)t=b.top-h-6;
+m.style.top=t+"px";m.style.left=Math.max(8,Math.min(b.left,innerWidth-m.offsetWidth-8))+"px";
+m.onclick=e=>{const x=e.target.closest("button");if(x){closeMenu();dec(uid,x.dataset.v)}};menu=m}
+function closeMenu(){if(menu){menu.remove();menu=null}}
+document.addEventListener("click",e=>{if(!e.target.closest(".menu,.dbtn"))closeMenu()});addEventListener("scroll",closeMenu,true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu();if(e.key==="/"&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&$("qs")){e.preventDefault();$("qs").focus()}});
+async function act(u,v){try{await api(U(`/docs/${D.id}/rows/${u}`),"PATCH",{activity:v});D.rows.find(r=>r.uid===u).activity=v||null;draw()}catch(e){if(e)toast(e.message,"err")}}
+async function dec(u,v){const r=D.rows.find(x=>x.uid===u),o=DC[v];
+const msg={Up:"va primi gradul următor",Down:"va primi gradul anterior",Out:"va pierde gradul și rolul de membru","Rămâne":"rămâne neschimbat"}[v];
+if(!await ask(`Aplici „${v}"?`,`${r.name} ${msg} pe Discord. Decizia nu mai poate fi schimbată în acest Docs.`,{i:o.i,c:o.c,danger:v==="Out"}))return;
+try{await api(U(`/docs/${D.id}/rows/${u}`),"PATCH",{decision:v});toast(`${r.name}: ${v} aplicat pe Discord`,"ok")}catch(e){if(e)toast(e.message,"err")}load(D.id)}
+async function gen(){const b=$("gen");b.disabled=true;b.innerHTML=ic("clock")+"Se generează";
+try{const d=await api(U("/docs"),"POST");toast("Docs generat","ok");await docs(d.id)}catch(e){if(e)toast(e.message,"err")}b.disabled=false;b.innerHTML=ic("plus")+"<span>Generează Docs "+esc(FN)+"</span>"}
+async function delDoc(){if(!await ask("Ștergi acest Docs?",`„${D.name}" va fi șters definitiv. Rolurile de pe Discord nu se schimbă.`,{i:"trash",c:"#dc3f4d",danger:true}))return;
+try{await api(U("/docs/"+D.id),"DELETE");toast("Docs șters","ok");D=null;await docs()}catch(e){if(e)toast(e.message,"err")}}
+function csv(){const h="ID Discord,Nume,Activitate,Grad,În grad de la,Decizie\n",b=D.rows.map(r=>[r.uid,r.name,r.activity||"",r.out?"OUT":N[r.rank]?.name||"",r.since||"",r.decision].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");
+const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+h+b],{type:"text/csv"}));a.download=D.name.replace(/[ /]/g,"")+".csv";a.click()}
+async function out(){try{sessionStorage.removeItem("fac")}catch(e){}await fetch("/auth/logout",{method:"POST"});location.reload()}
+init();
+</script></body></html>
